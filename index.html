@@ -61,6 +61,7 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 }
 .sh2 .cn{margin-left:auto;display:inline-flex;gap:6px}.sh2 .cn+.more{margin-left:14px}
 .cb2{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);color:var(--v6);transition:.2s}.cb2:hover{border-color:rgba(180,150,255,.6);color:#fff;background:rgba(146,108,238,.15)}.cb2 svg{width:15px;height:15px}
+.grid.car.vcs{gap:18px}
 .grid.car{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}.grid.car::-webkit-scrollbar{display:none}
 .grid.car .cd{flex:0 0 calc((100% - 42px)/4);min-width:0;scroll-snap-align:start}
 @media(max-width:1100px){.grid.car .cd{flex-basis:calc((100% - 28px)/3)}}
@@ -69,6 +70,15 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 .skl.s3 .sk{column-gap:16px;padding:22px 8px}.skl.s3 .sk h3{font-size:16.5px}
 @media(max-width:1100px){.grid.skl.s3{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:900px){.grid.skl.s3{grid-template-columns:1fr}}
+.vc{flex:0 0 calc((100% - 36px)/3);min-width:0;scroll-snap-align:start;cursor:pointer;text-align:left;display:flex;flex-direction:column}
+.vm{position:relative;aspect-ratio:16/9;border-radius:18px;overflow:hidden;border:1px solid rgba(146,108,238,.45);background:#07051a;transition:border-color .25s,box-shadow .25s}
+.vm img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.vc:hover .vm{border-color:rgba(190,160,255,.9);box-shadow:0 18px 44px -22px rgba(117,81,208,.9)}.vc:hover .vm img{transform:scale(1.04)}
+.vd{position:absolute;right:10px;bottom:10px;padding:5px 8px;border-radius:8px;background:rgba(6,4,18,.78);color:#fff;font:500 12px/1 var(--disp)}
+.vt{margin:14px 0 10px;font:500 17px/1.35 var(--sans);letter-spacing:-.01em;color:#fff;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+.vc .cf{margin-top:auto}
+@media(max-width:1100px){.vc{flex-basis:calc((100% - 18px)/2)}}
+@media(max-width:700px){.vc{flex-basis:82%}.vt{font-size:16px}}
 .grid.ga .ty,.grid.ga .dur{display:none}
 .grid.g3{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 @media(max-width:1100px){.grid.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -442,6 +452,7 @@ const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path 
 const BOLT='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2h4v2h-4zM10 4h4v2h-4zM8 6h4v2H8zM6 8h4v2H6zM6 10h12v2H6zM12 12h4v2h-4zM10 14h4v2h-4zM8 16h4v2H8zM6 18h4v2H6z"/></svg>';
 const ARR='<svg class="sar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 11h16v2H3zM15 7h2v2h-2zM17 9h2v2h-2zM17 13h2v2h-2zM15 15h2v2h-2z"/></svg>';
 function skRow(x){return `<article class="sk fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}">${AB(+x.id.slice(1),x.c)}<code class="slug">${esc(x.cmd)}</code><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>${ARR}</article>`}
+function vcard(x){return `<article class="vc fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}"><div class="vm"><img src="${x.img}" alt="" loading="lazy">${x.dur?`<span class="vd">${esc(x.dur)}</span>`:""}</div><h3 class="vt">${esc(x.t)}</h3><div class="cf"><span class="tg">${ci(x.c)}${esc(x.c)}</span>${lvb(x.lv)}</div></article>`}
 function card(x,row){if(x.k==="s"&&row===1)return skRow(x);return `<article class="cd fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}">${media(x)}<div class="cb"><h3 class="ct">${esc(x.t)}</h3><p class="cdsc">${esc(x.d)}</p><div class="cf"><span class="tg">${ci(x.c)}${esc(x.c)}</span>${lvb(x.lv)}${x.k==="a"?`<span class="dt">${esc(x.date)}</span>`:""}<span class="go">${I.arr}</span></div></div></article>`}
 /* views */
 function sidebar(){
@@ -452,7 +463,7 @@ h+=`<div class="sg">Level</div>`+["Beginner","Intermediate","Advanced"].map(l=>`
 $("#sb").innerHTML=h}
 function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k],car=k!=="s";
 const nb=car?`<span class="cn"><button class="cb2" data-act="car" data-v="-1" aria-label="Geser ke kiri"><span style="display:inline-grid;transform:scaleX(-1)">${I.arr}</span></button><button class="cb2" data-act="car" data-v="1" aria-label="Geser ke kanan">${I.arr}</button></span>`:"";
-return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl s3":" car"}${k==="a"?" ga":""}">${(k==="s"?a.slice(0,6):a).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
+return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl s3":" car"}${k==="a"?" ga":""}${k==="v"?" vcs":""}">${(k==="s"?a.slice(0,6):a).map(x=>k==="v"?vcard(x):card(x,k==="s"?1:0)).join("")}</div></section>`}
 const CHK='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 11h2v2H4zM6 13h2v2H6zM8 15h2v2H8zM10 13h2v2h-2zM12 11h2v2h-2zM14 9h2v2h-2zM16 7h2v2h-2z"/></svg>';
 const CHV='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 9h2v2H6zM8 11h2v2H8zM10 13h2v2h-2zM12 11h2v2h-2zM14 9h2v2h-2z"/></svg>';
 const sorts0=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]],lvO=[["","Semua Level"],["Beginner","Beginner"],["Intermediate","Intermediate"],["Advanced","Advanced"]];
