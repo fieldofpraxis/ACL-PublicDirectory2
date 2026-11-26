@@ -5,7 +5,7 @@ Alternatif iterasi AI Creator Labs Public Directory yang fokus pada direktori: l
 - Satu katalog untuk Skills, Video, dan Artikel dengan filter tipe, topik, level, dan urutan.
 - Search palette (Ctrl/Cmd + K atau `/`) dengan hasil dikelompokkan dan navigasi keyboard.
 - Panel detail di sisi kanan, tanpa pindah halaman.
-- Font: Plus Jakarta Sans, dengan Literata Italic sebagai aksen serif (Google Fonts, lisensi OFL).
+- Font: Plus Jakarta Sans, dengan Libre Baskerville Italic sebagai aksen serif (Google Fonts, lisensi OFL).
 - Ikon pixel, logo, dan palet violet ACL; cursor trail yang sama dengan versi sebelumnya.
 
 ## Menjalankan
