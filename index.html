@@ -446,7 +446,7 @@ function view(){const w=$("#wrap"),filt=S.c.size||S.l||S.q||S.t!=="all",a=list()
 const tabs=[["all","Semua",ITEMS.length],["s","Skills",TYC.s],["v","Video",TYC.v],["a","Artikel",TYC.a]].map(([k,l,c])=>`<button class="tab${S.t===k?" on":""}" data-act="type" data-v="${k}">${l}</button>`).join("");
 const sorts=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]].map(([v,l])=>`<option value="${v}"${S.s===v?" selected":""}>${l}</option>`).join("");
 const lvs=`<option value="">Semua Level</option>`+["Beginner","Intermediate","Advanced"].map(l=>`<option${S.l===l?" selected":""}>${l}</option>`).join("");
-const chips=TOPICS.map(t=>{const on=S.c.has(t),c=ITEMS.filter(x=>(S.t==="all"||x.k===S.t)&&x.tg.includes(t)).length;if(!c&&!on)return"";return `<button class="chip${on?" on":""}" data-act="topic" data-v="${esc(t)}">${ci(t)}${esc(t)}${on?`<span class="x">${I.x}</span>`:`<span class="n">${c}</span>`}</button>`}).join("");
+const chips=TOPICS.map(t=>{const on=S.c.has(t),c=ITEMS.filter(x=>(S.t==="all"||x.k===S.t)&&x.tg.includes(t)).length;if(!c&&!on)return"";return `<button class="chip${on?" on":""}" data-act="topic" data-v="${esc(t)}">${ci(t)}${esc(t)}${on?`<span class="x">${I.x}</span>`:""}</button>`}).join("");
 let body="";
 if(!filt){const f=ITEMS.filter(x=>["s0","v0","a0","s4"].includes(x.id));
 body=`<section class="sec"><div class="sh2"><h2>${BOLT}Pilihan Editor</h2><span class="c">Mulai dari sini</span></div><div class="feat">${f.map(x=>card(x,0)).join("")}</div></section>`+secHtml("s")+secHtml("v")+secHtml("a")}
