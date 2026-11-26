@@ -95,14 +95,13 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 /* main */
 .main{flex:1;min-width:0;position:relative}
 .main>*{position:relative;z-index:1}
-.main>.glow{position:absolute;z-index:0;left:0;right:0;bottom:0;height:520px;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(to top,#000 30%,transparent);mask-image:linear-gradient(to top,#000 30%,transparent)}
-.glow i{position:absolute;bottom:-45%;border-radius:50%;filter:blur(60px);will-change:transform,opacity}
-.glow i:nth-child(1){left:-5%;width:60%;height:100%;background:radial-gradient(closest-side,rgba(117,81,208,.77),transparent);animation:gl1 11s ease-in-out infinite alternate}
-.glow i:nth-child(2){right:-10%;width:65%;height:110%;background:radial-gradient(closest-side,rgba(90,100,255,.59),transparent);animation:gl2 14s ease-in-out infinite alternate}
-.glow i:nth-child(3){left:25%;width:50%;height:80%;background:radial-gradient(closest-side,rgba(180,150,255,.45),transparent);animation:gl3 9s ease-in-out infinite alternate}
-@keyframes gl1{from{transform:translate(0,0) scale(1);opacity:.75}to{transform:translate(12%,-6%) scale(1.12);opacity:1}}
-@keyframes gl2{from{transform:translate(0,0) scale(1.05);opacity:1}to{transform:translate(-14%,-4%) scale(.95);opacity:.7}}
-@keyframes gl3{from{transform:translate(-8%,0) scale(.95);opacity:.5}to{transform:translate(8%,-8%) scale(1.1);opacity:.9}}
+.main>.glow{position:absolute;z-index:0;left:0;right:0;bottom:0;height:520px;pointer-events:none;overflow:hidden}
+.glow i{position:absolute;border-radius:50%;will-change:transform,opacity}
+.glow i:nth-child(1){left:8%;width:84%;height:150%;bottom:-78%;background:radial-gradient(closest-side,rgba(150,115,240,.95),rgba(105,75,205,.45) 48%,transparent);filter:blur(18px);animation:gl1 8s ease-in-out infinite alternate}
+.glow i:nth-child(2){left:32%;width:36%;height:60%;bottom:-38%;background:radial-gradient(closest-side,rgba(200,180,255,.55),transparent);filter:blur(22px);animation:gl2 6s ease-in-out infinite alternate}
+.glow i:nth-child(3){display:none}
+@keyframes gl1{from{transform:scale(.96);opacity:.8}to{transform:scale(1.06);opacity:1}}
+@keyframes gl2{from{transform:translateX(-10%);opacity:.55}to{transform:translateX(10%);opacity:1}}
 @media(prefers-reduced-motion:reduce){.glow i{animation:none}}
 .btt{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px 0 12px;border-radius:999px;border:1px solid rgba(180,150,255,.35);background:rgba(20,14,50,.55);color:#fff;font:600 12px/1 var(--disp);letter-spacing:.04em;transition:.25s}
 .btt:hover{border-color:rgba(180,150,255,.8);background:rgba(146,108,238,.25);box-shadow:0 0 22px -4px var(--v4);transform:translateY(-2px)}
@@ -137,7 +136,7 @@ h1 .sr{font:italic 500 1em/1 var(--serif);letter-spacing:-.01em;color:var(--v6)}
 .hm{display:flex;flex-wrap:wrap;gap:18px;margin-top:20px;font:500 12px/1 var(--disp);letter-spacing:.04em;color:var(--dim)}
 .hm b{color:var(--ink);font-weight:600;margin-right:5px}
 /* sections */
-.wrap{padding:0 24px 60px}
+.wrap{padding:0 24px 150px}
 .sec{margin-top:36px}
 .sh2{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .sh2 h2{font:600 17px/1 var(--disp);letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
