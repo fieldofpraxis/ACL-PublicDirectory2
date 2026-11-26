@@ -464,7 +464,7 @@ function card(x,row){if(x.k==="s"&&row===1)return skRow(x);return `<article clas
 /* views */
 function sidebar(){
 const nav=(k,ic,lb)=>`<button class="nv${S.t===k?" on":""}" data-act="type" data-v="${k}" title="${lb}"><span class="ic">${ic}</span><span class="lb">${lb}</span></button>`;
-let h=`<div class="sg">Jelajahi</div>`+nav("all",I.all,"Semua Resource")+nav("s",IC.resources,"Skills")+nav("v",IC.knowledges,"Video")+nav("a",IC.articles,"Artikel");
+let h=`<div class="sg">Jelajahi</div>`+nav("all",I.all,"Semua Resource")+nav("s",IC.resources,"Resource")+nav("v",IC.knowledges,"Knowledges")+nav("a",IC.articles,"Articles");
 h+=`<div class="sg">Topik</div>`+TOPICS.map(t=>`<button class="nv${S.c.has(t)?" on":""}" data-act="topic" data-v="${esc(t)}" title="${esc(t)}">${ci(t)}<span class="lb">${esc(t)}</span></button>`).join("");
 h+=`<div class="sg">Level</div>`+["Beginner","Intermediate","Advanced"].map(l=>`<button class="nv${S.l===l?" on":""}" data-act="level" data-v="${l}" title="${l}"><span class="lvm"><span class="lv lv-${LVK[l]}" style="padding:3px 6px">${l[0]}</span></span><span class="lb">${l}</span></button>`).join("");
 $("#sb").innerHTML=h}
