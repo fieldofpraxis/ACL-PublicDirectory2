@@ -89,7 +89,21 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 .ci{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:7px;flex:none;background:radial-gradient(125% 95% at 50% 128%,var(--a) 0%,var(--b) 38%,transparent 72%),linear-gradient(180deg,#06050e,#13101f);box-shadow:inset 0 -6px 9px -5px var(--a),inset 0 0 0 1px rgba(255,255,255,.16),0 0 14px -3px var(--b);color:#fff}
 .ci svg{width:11px;height:11px;fill:currentColor;filter:drop-shadow(0 0 3px rgba(255,255,255,.5))}
 /* main */
-.main{flex:1;min-width:0}
+.main{flex:1;min-width:0;position:relative}
+.main>*{position:relative;z-index:1}
+.main>.glow{position:absolute;z-index:0;left:0;right:0;bottom:0;height:520px;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(to top,#000 30%,transparent);mask-image:linear-gradient(to top,#000 30%,transparent)}
+.glow i{position:absolute;bottom:-45%;border-radius:50%;filter:blur(60px);will-change:transform,opacity}
+.glow i:nth-child(1){left:-5%;width:60%;height:100%;background:radial-gradient(closest-side,rgba(117,81,208,.55),transparent);animation:gl1 11s ease-in-out infinite alternate}
+.glow i:nth-child(2){right:-10%;width:65%;height:110%;background:radial-gradient(closest-side,rgba(90,100,255,.42),transparent);animation:gl2 14s ease-in-out infinite alternate}
+.glow i:nth-child(3){left:25%;width:50%;height:80%;background:radial-gradient(closest-side,rgba(180,150,255,.32),transparent);animation:gl3 9s ease-in-out infinite alternate}
+@keyframes gl1{from{transform:translate(0,0) scale(1);opacity:.75}to{transform:translate(12%,-6%) scale(1.12);opacity:1}}
+@keyframes gl2{from{transform:translate(0,0) scale(1.05);opacity:1}to{transform:translate(-14%,-4%) scale(.95);opacity:.7}}
+@keyframes gl3{from{transform:translate(-8%,0) scale(.95);opacity:.5}to{transform:translate(8%,-8%) scale(1.1);opacity:.9}}
+@media(prefers-reduced-motion:reduce){.glow i{animation:none}}
+.btt{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 14px 0 12px;border-radius:999px;border:1px solid rgba(180,150,255,.35);background:rgba(20,14,50,.55);color:#fff;font:600 12px/1 var(--disp);letter-spacing:.04em;transition:.25s}
+.btt:hover{border-color:rgba(180,150,255,.8);background:rgba(146,108,238,.25);box-shadow:0 0 22px -4px var(--v4);transform:translateY(-2px)}
+.btt svg{width:14px;height:14px;transform:rotate(-90deg);color:var(--v6)}
+.foot{align-items:center}
 .top{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:12px;height:60px;padding:0 24px;background:rgba(4,3,12,.78);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--line)}
 .ban .bt{position:relative}.hb{display:none;width:36px;height:36px;border-radius:9px;place-items:center;border:1px solid var(--line)}.hb svg{width:18px;height:18px}
 .tlogo{display:none}.tlogo img{height:28px;width:auto}
@@ -262,7 +276,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 .hs .btn{width:100%}.hsb{flex-basis:100%}
 .kv{grid-template-columns:96px 1fr}
 .dp{width:100%}
-.foot{flex-direction:column}
+.foot{flex-direction:column;align-items:flex-start}
 .ov{padding-top:max(10vh,24px)}
 }
 @media(max-width:400px){.top{gap:6px;padding:0 10px}.tr .btn{padding:0 10px;font-size:12px}.hb{width:34px;flex:none}}
@@ -295,6 +309,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 </section>
 <section class="ban" id="ban" style="display:none"></section>
 <div class="wrap" id="wrap"></div>
+<div class="glow" aria-hidden="true"><i></i><i></i><i></i></div>
 </div>
 </div>
 <div class="ov" id="ov" aria-hidden="true"><div class="pal" role="dialog" aria-label="Pencarian">
@@ -434,7 +449,7 @@ if(!filt){const f=ITEMS.filter(x=>["s0","v0","a0","s4"].includes(x.id));
 body=`<section class="sec"><div class="sh2"><h2>${BOLT}Pilihan Editor</h2><span class="c">Mulai dari sini</span></div><div class="feat">${f.map(x=>card(x,0)).join("")}</div></section>`+secHtml("s")+secHtml("v")+secHtml("a")}
 else{const act=[...S.c].map(t=>`<button class="q" data-act="topic" data-v="${esc(t)}">${esc(t)}${I.x}</button>`).join("")+(S.l?`<button class="q" data-act="level" data-v="${S.l}">${S.l}${I.x}</button>`:"")+(S.q?`<button class="q" data-act="clearq">&ldquo;${esc(S.q)}&rdquo;${I.x}</button>`:"");
 body=`<div class="rs"><span><b>${a.length}</b> Resource${S.t!=="all"?" &middot; "+TY[S.t].n:""}</span>${act}${(S.c.size||S.l||S.q)?`<button class="rst" data-act="reset">${I.reset}Reset Filter</button>`:""}</div>`+(a.length?`<div class="grid${S.t==="s"?" skl":S.t==="v"?" g3":S.t==="a"?" ga":""}">${a.map(x=>card(x,S.t==="s"?1:0)).join("")}</div>`:`<div class="empty"><span class="sr">Belum ketemu</span><h3>Tidak Ada Hasil yang Cocok</h3><p>Coba kata kunci lain atau kurangi filter yang aktif.</p><button class="btn o" data-act="reset">Reset Filter</button></div>`)}
-w.innerHTML=`<div class="tb"><div class="tabs">${tabs}</div><div class="sp"><label class="sel"><select data-act="level-sel" aria-label="Level">${lvs}</select></label><label class="sel"><select data-act="sort" aria-label="Urutkan">${sorts}</select></label></div></div><div class="chips">${chips}</div>${body}<div class="foot"><span>Copyright AI Creator Labs 2026</span><span>Semua resource gratis. Konten masih contoh dan akan diganti data asli.</span></div>`}
+w.innerHTML=`<div class="tb"><div class="tabs">${tabs}</div><div class="sp"><label class="sel"><select data-act="level-sel" aria-label="Level">${lvs}</select></label><label class="sel"><select data-act="sort" aria-label="Urutkan">${sorts}</select></label></div></div><div class="chips">${chips}</div>${body}<div class="foot"><span>Copyright AI Creator Labs 2026</span><button class="btt" data-act="totop">${I.arr}Kembali ke atas</button><span>Semua resource gratis. Konten masih contoh dan akan diganti data asli.</span></div>`}
 const BAN={s:{img:"images/menu-resources.webp",py:"28%",eb:"Resources",t:'Kumpulan <span class="sr">Skills</span>',d:"Skill siap pakai dari AI Creator Labs. Cari atau pilih topik, buka detailnya, lalu ambil dari GitHub."},v:{img:"images/banner-video.webp",py:"80%",full:1,sc:1.155,eb:"Knowledges",t:'Pustaka <span class="sr">Video</span>',d:"Rekaman workshop dan sesi live dari kanal YouTube AI Creator Labs."},a:{img:"images/banner-articles.webp",py:"40%",full:1,eb:"Articles",t:'Kumpulan <span class="sr">Artikel</span>',d:"Bacaan singkat tentang AI, dikelompokkan per topik."}};
 function banner(){const el=$("#ban"),b=BAN[S.t];if(!b){el.style.display="none";return}
 el.style.display="";el.style.setProperty("--img",`url(${b.img})`);el.style.setProperty("--py",b.py);el.style.setProperty("--sc",b.sc||1);el.classList.toggle("full",!!b.full);
@@ -477,7 +492,7 @@ if(b.dataset.login!==undefined){e.preventDefault();return}
 if(b.dataset.start!==undefined){e.preventDefault();go({t:"s",c:new Set(),l:"",q:"",i:""});scrollTo({top:0});return}
 if(b.dataset.pi!==undefined){pPick(+b.dataset.pi);return}
 const a=b.dataset.act,v=b.dataset.v;
-if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");else if(a==="car"){const c=b.closest(".sec").querySelector(".car");c.scrollBy({left:+b.dataset.v*c.clientWidth*.9,behavior:"smooth"})}
+if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");else if(a==="totop"){scrollTo({top:0,behavior:"smooth"})}else if(a==="car"){const c=b.closest(".sec").querySelector(".car");c.scrollBy({left:+b.dataset.v*c.clientWidth*.9,behavior:"smooth"})}
 else if(a==="type"){go({t:v==="all"?"all":v,i:""});document.body.classList.remove("so");if(v!=="all"||S.t!=="all")scrollTo({top:0})}
 else if(a==="topic"){const c=new Set(S.c);c.has(v)?c.delete(v):c.add(v);go({c,i:""})}
 else if(a==="level"){go({l:S.l===v?"":v,i:""})}
