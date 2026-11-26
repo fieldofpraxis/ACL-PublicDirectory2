@@ -149,7 +149,7 @@ kbd{font:500 11px/1 var(--disp);padding:5px 7px;border-radius:6px;border:1px sol
 .btn.o{border:1px solid var(--line2);color:#fff}.btn.o:hover{background:rgba(180,150,255,.1)}
 .btn svg{width:15px;height:15px}
 /* hero */
-.hero{position:relative;overflow:hidden;margin:18px 24px 0;padding:34px 34px 30px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(6,4,22,.92) 0%,rgba(8,6,28,.6) 42%,rgba(8,6,28,.08) 100%),url(images/hero-beam.webp) 88% 40%/cover no-repeat,#07051a}
+.hero{image-rendering:pixelated;position:relative;overflow:hidden;margin:18px 24px 0;padding:34px 34px 30px;border-radius:16px;border:1px solid var(--line);background:linear-gradient(90deg,rgba(6,4,22,.92) 0%,rgba(8,6,28,.6) 42%,rgba(8,6,28,.08) 100%),url(images/hero-beam.webp) 88% 40%/cover no-repeat,#07051a}
 .hero::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(50% 90% at 5% 120%,rgba(70,90,255,.2),transparent 65%)}
 .hero::after{content:"";position:absolute;inset:0;pointer-events:none;background-image:radial-gradient(rgba(200,196,255,.16) 1px,transparent 1.2px);background-size:22px 22px;-webkit-mask-image:linear-gradient(90deg,transparent 30%,#000 100%);mask-image:linear-gradient(90deg,transparent 30%,#000 100%);opacity:.7}
 .hero>*{position:relative;z-index:1}
@@ -174,7 +174,7 @@ h1 .sr{font:italic 400 calc(.9em + 2pt)/1 var(--serif);letter-spacing:-.02em;col
 .sh2 .more svg{width:13px;height:13px}
 /* banner */
 .ban{position:relative;overflow:hidden;margin:18px 24px 0;min-height:176px;border-radius:16px;border:1px solid var(--line);background:#07051a;display:flex;align-items:center;isolation:isolate}
-.ban .bi{position:absolute;z-index:-2;right:0;top:0;bottom:0;width:66%;background:var(--img) center var(--py,35%)/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 60%);mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
+.ban .bi{image-rendering:pixelated;position:absolute;z-index:-2;right:0;top:0;bottom:0;width:66%;background:var(--img) center var(--py,35%)/cover no-repeat;-webkit-mask-image:linear-gradient(90deg,transparent 0%,#000 60%);mask-image:linear-gradient(90deg,transparent 0%,#000 60%)}
 .ban::before{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,rgba(7,5,26,.96) 0%,rgba(24,16,70,.72) 42%,rgba(40,30,120,.22) 100%)}
 .ban::after{content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(60% 120% at 92% 0%,rgba(130,110,255,.22),transparent 65%)}
 .ban.full .bi{left:0;width:100%;transform-origin:right center;transform:scale(var(--sc,1));-webkit-mask-image:none;mask-image:none;background-position:right var(--py)}
