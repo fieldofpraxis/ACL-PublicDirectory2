@@ -163,6 +163,17 @@ h1 .sr{font:italic 500 1em/1 var(--serif);letter-spacing:-.01em;color:var(--v6)}
 .tab:hover{color:#fff}.tab.on{color:#fff}
 .tab.on::after{content:"";position:absolute;left:10px;right:10px;bottom:-1px;height:2px;background:linear-gradient(90deg,var(--v4),var(--v5));box-shadow:0 0 12px var(--v4)}
 .tab .n{font:500 11px/1 var(--disp);color:var(--dim);letter-spacing:0}.tab.on .n{color:var(--v6)}
+.dd{position:relative}
+.ddb{display:inline-flex;align-items:center;justify-content:space-between;gap:8px;height:36px;padding:0 10px 0 14px;min-width:132px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--mute);font:500 13px/1 var(--sans);transition:.2s}
+.ddb:hover,.dd.open .ddb{border-color:rgba(180,150,255,.5);color:#fff}.dd.open .ddb{background:rgba(146,108,238,.12)}
+.ddb svg{width:16px;height:16px;flex:none;color:var(--v5);transition:transform .25s}.dd.open .ddb svg{transform:rotate(180deg)}
+.ddm{position:absolute;z-index:80;top:calc(100% + 8px);right:0;min-width:100%;width:max-content;padding:6px;border-radius:14px;background:rgba(10,7,28,.96);border:1px solid rgba(180,150,255,.28);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);box-shadow:0 24px 60px -20px #000,0 0 40px -14px rgba(117,81,208,.8);opacity:0;visibility:hidden;transform:translateY(-6px);transition:opacity .2s,transform .2s,visibility .2s}
+.dd.open .ddm{opacity:1;visibility:visible;transform:none}
+.ddo{display:flex;align-items:center;gap:8px;width:100%;height:36px;padding:0 14px 0 8px;border-radius:9px;color:#fff;font:500 13px/1 var(--sans);text-align:left;white-space:nowrap;transition:background .15s}
+.ddo i{width:16px;height:16px;flex:none;display:inline-grid;place-items:center;color:var(--v5);opacity:0}.ddo i svg{width:16px;height:16px}
+.ddo:hover{background:rgba(146,108,238,.16)}
+.ddo.on i{opacity:1}.ddo.on span{background:linear-gradient(90deg,var(--v6),var(--v4));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;font-weight:600}
+@media(prefers-reduced-motion:reduce){.ddm,.ddb svg{transition:none}}
 .sel{position:relative;display:inline-flex;align-items:center}
 .sel select{appearance:none;-webkit-appearance:none;height:36px;padding:0 32px 0 12px;border-radius:10px;background:rgba(255,255,255,.04);border:1px solid var(--line);color:var(--mute);font:500 13px/1 var(--sans);cursor:pointer;transition:.2s}
 .sel select:hover{border-color:var(--line2);color:#fff}.sel select option{background:#0c0a1d;color:#fff}
@@ -267,7 +278,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 @media(max-width:700px){
 .tr .g{display:none}.stg kbd{display:none}
 .top{gap:8px}.tlogo{display:none}
-.sp{margin-left:0;width:100%}.sp .sel{flex:1}.sp .sel select{width:100%}
+.sp{margin-left:0;width:100%}.sp .dd{flex:1}.sp .ddb{width:100%}.dd:last-child .ddm{right:0}.dd:first-child .ddm{right:auto;left:0}
 .tabs{width:100%;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:1;justify-content:center}.tb{padding-bottom:10px}.tb .sp{padding-top:0}.tab.on::after{bottom:-1px}
 .grid{grid-template-columns:1fr;gap:10px}.grid.skl{gap:0}.grid.g3{grid-template-columns:1fr;gap:10px}.grid.car{display:flex;gap:10px}.grid.car .cd{flex:0 0 88%;display:grid}.feat{grid-template-columns:1fr;gap:10px}
 .cd{display:grid;grid-template-columns:116px 1fr}
@@ -442,6 +453,10 @@ $("#sb").innerHTML=h}
 function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k],car=k!=="s";
 const nb=car?`<span class="cn"><button class="cb2" data-act="car" data-v="-1" aria-label="Geser ke kiri"><span style="display:inline-grid;transform:scaleX(-1)">${I.arr}</span></button><button class="cb2" data-act="car" data-v="1" aria-label="Geser ke kanan">${I.arr}</button></span>`:"";
 return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl s3":" car"}${k==="a"?" ga":""}">${(k==="s"?a.slice(0,6):a).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
+const CHK='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M4 11h2v2H4zM6 13h2v2H6zM8 15h2v2H8zM10 13h2v2h-2zM12 11h2v2h-2zM14 9h2v2h-2zM16 7h2v2h-2z"/></svg>';
+const CHV='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M6 9h2v2H6zM8 11h2v2H8zM10 13h2v2h-2zM12 11h2v2h-2zM14 9h2v2h-2z"/></svg>';
+const sorts0=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]],lvO=[["","Semua Level"],["Beginner","Beginner"],["Intermediate","Intermediate"],["Advanced","Advanced"]];
+const dd=(k,lab,opts,cur)=>`<div class="dd" data-dd="${k}"><button class="ddb" data-act="dd" aria-haspopup="listbox" aria-expanded="false"><span>${esc(lab)}</span>${CHV}</button><div class="ddm" role="listbox">${opts.map(([v,l])=>`<button class="ddo${(cur||"")===v?" on":""}" role="option" aria-selected="${(cur||"")===v}" data-act="ddpick" data-k="${k}" data-v="${esc(v)}"><i>${CHK}</i><span>${esc(l)}</span></button>`).join("")}</div></div>`;
 function view(){const w=$("#wrap"),filt=S.c.size||S.l||S.q||S.t!=="all",a=list();
 const tabs=[["all","Semua",ITEMS.length],["s","Skills",TYC.s],["v","Video",TYC.v],["a","Artikel",TYC.a]].map(([k,l,c])=>`<button class="tab${S.t===k?" on":""}" data-act="type" data-v="${k}">${l}</button>`).join("");
 const sorts=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]].map(([v,l])=>`<option value="${v}"${S.s===v?" selected":""}>${l}</option>`).join("");
@@ -452,7 +467,7 @@ if(!filt){const f=ITEMS.filter(x=>["s0","v0","a0","s4"].includes(x.id));
 body=`<section class="sec"><div class="sh2"><h2>${BOLT}Pilihan Editor</h2><span class="c">Mulai dari sini</span></div><div class="feat">${f.map(x=>card(x,0)).join("")}</div></section>`+secHtml("s")+secHtml("v")+secHtml("a")}
 else{const act=[...S.c].map(t=>`<button class="q" data-act="topic" data-v="${esc(t)}">${esc(t)}${I.x}</button>`).join("")+(S.l?`<button class="q" data-act="level" data-v="${S.l}">${S.l}${I.x}</button>`:"")+(S.q?`<button class="q" data-act="clearq">&ldquo;${esc(S.q)}&rdquo;${I.x}</button>`:"");
 body=`<div class="rs"><span><b>${a.length}</b> Resource${S.t!=="all"?" &middot; "+TY[S.t].n:""}</span>${act}${(S.c.size||S.l||S.q)?`<button class="rst" data-act="reset">${I.reset}Reset Filter</button>`:""}</div>`+(a.length?`<div class="grid${S.t==="s"?" skl":S.t==="v"?" g3":S.t==="a"?" ga":""}">${a.map(x=>card(x,S.t==="s"?1:0)).join("")}</div>`:`<div class="empty"><span class="sr">Belum ketemu</span><h3>Tidak Ada Hasil yang Cocok</h3><p>Coba kata kunci lain atau kurangi filter yang aktif.</p><button class="btn o" data-act="reset">Reset Filter</button></div>`)}
-w.innerHTML=`<div class="tb"><div class="tabs">${tabs}</div><div class="sp"><label class="sel"><select data-act="level-sel" aria-label="Level">${lvs}</select></label><label class="sel"><select data-act="sort" aria-label="Urutkan">${sorts}</select></label></div></div><div class="chips">${chips}</div>${body}<div class="foot"><span>Copyright AI Creator Labs 2026</span><button class="btt" data-act="totop">${I.arr}Kembali ke atas</button><span>Semua resource gratis. Konten masih contoh dan akan diganti data asli.</span></div>`}
+w.innerHTML=`<div class="tb"><div class="tabs">${tabs}</div><div class="sp">${dd("l",S.l||"Semua Level",lvO,S.l)}${dd("s",(sorts0.find(x=>x[0]===S.s)||sorts0[0])[1],sorts0,S.s)}</div></div><div class="chips">${chips}</div>${body}<div class="foot"><span>Copyright AI Creator Labs 2026</span><button class="btt" data-act="totop">${I.arr}Kembali ke atas</button><span>Semua resource gratis. Konten masih contoh dan akan diganti data asli.</span></div>`}
 const BAN={s:{img:"images/banner-skills.webp",py:"32%",full:1,eb:"Resources",t:'Kumpulan <span class="sr">Skills</span>',d:"Skill siap pakai dari AI Creator Labs. Cari atau pilih topik, buka detailnya, lalu ambil dari GitHub."},v:{img:"images/banner-video.webp",py:"80%",full:1,sc:1.155,eb:"Knowledges",t:'Pustaka <span class="sr">Video</span>',d:"Rekaman workshop dan sesi live dari kanal YouTube AI Creator Labs."},a:{img:"images/banner-articles.webp",py:"40%",full:1,eb:"Articles",t:'Kumpulan <span class="sr">Artikel</span>',d:"Bacaan singkat tentang AI, dikelompokkan per topik."}};
 function banner(){const el=$("#ban"),b=BAN[S.t];if(!b){el.style.display="none";return}
 el.style.display="";el.style.setProperty("--img",`url(${b.img})`);el.style.setProperty("--py",b.py);el.style.setProperty("--sc",b.sc||1);el.classList.toggle("full",!!b.full);
@@ -495,7 +510,7 @@ if(b.dataset.login!==undefined){e.preventDefault();return}
 if(b.dataset.start!==undefined){e.preventDefault();go({t:"s",c:new Set(),l:"",q:"",i:""});scrollTo({top:0});return}
 if(b.dataset.pi!==undefined){pPick(+b.dataset.pi);return}
 const a=b.dataset.act,v=b.dataset.v;
-if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");else if(a==="totop"){scrollTo({top:0,behavior:"smooth"})}else if(a==="car"){const c=b.closest(".sec").querySelector(".car");c.scrollBy({left:+b.dataset.v*c.clientWidth*.9,behavior:"smooth"})}
+if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");else if(a==="totop"){scrollTo({top:0,behavior:"smooth"})}else if(a==="dd"){const d=b.closest(".dd"),o=!d.classList.contains("open");$$(".dd.open").forEach(x=>{x.classList.remove("open");x.querySelector(".ddb").setAttribute("aria-expanded","false")});if(o){d.classList.add("open");b.setAttribute("aria-expanded","true")}}else if(a==="ddpick"){go(b.dataset.k==="s"?{s:b.dataset.v}:{l:b.dataset.v})}else if(a==="car"){const c=b.closest(".sec").querySelector(".car");c.scrollBy({left:+b.dataset.v*c.clientWidth*.9,behavior:"smooth"})}
 else if(a==="type"){go({t:v==="all"?"all":v,i:""});document.body.classList.remove("so");if(v!=="all"||S.t!=="all")scrollTo({top:0})}
 else if(a==="topic"){const c=new Set(S.c);c.has(v)?c.delete(v):c.add(v);go({c,i:""})}
 else if(a==="level"){go({l:S.l===v?"":v,i:""})}
@@ -505,6 +520,8 @@ else if(a==="basic")go({t:"all",c:new Set(["Basic AI"]),l:"Beginner",q:"",i:""})
 else if(a==="open")go({i:b.dataset.id});
 else if(a==="close")go({i:""});
 });
+document.addEventListener("click",e=>{if(!e.target.closest(".dd"))$$(".dd.open").forEach(x=>{x.classList.remove("open");x.querySelector(".ddb").setAttribute("aria-expanded","false")})});
+document.addEventListener("keydown",e=>{if(e.key==="Escape")$$(".dd.open").forEach(x=>{x.classList.remove("open");x.querySelector(".ddb").focus()})});
 document.addEventListener("change",e=>{const s=e.target.closest("select");if(!s)return;if(s.dataset.act==="sort")go({s:s.value});else if(s.dataset.act==="level-sel")go({l:s.value})});
 document.addEventListener("keydown",e=>{const o=$("#ov").classList.contains("on");
 if((e.key==="k"||e.key==="K")&&(e.metaKey||e.ctrlKey)){e.preventDefault();o?pClose():pOpen();return}
