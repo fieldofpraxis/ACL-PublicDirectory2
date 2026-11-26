@@ -20,6 +20,7 @@ a{color:inherit;text-decoration:none}button,select,input{font:inherit;color:inhe
 em{font-style:normal}i{font-style:normal}
 :focus-visible{outline:2px solid var(--v5);outline-offset:2px}
 svg{display:block}
+#fx{position:fixed;inset:0;z-index:0;width:100%;height:100%;pointer-events:none}
 .app{position:relative;z-index:1;display:flex;min-height:100vh}
 /* sidebar */
 .side{position:sticky;top:0;align-self:flex-start;width:var(--sw);height:100vh;flex:none;z-index:60;transition:width .3s cubic-bezier(.2,.8,.2,1)}
@@ -258,6 +259,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 </style>
 </head>
 <body>
+<canvas id="fx" aria-hidden="true"></canvas>
 <canvas id="trail" aria-hidden="true"></canvas>
 <div class="app">
 <aside class="side" id="side" aria-label="Navigasi"><div class="si">
@@ -275,7 +277,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 </header>
 <section class="hero" id="hero">
 <div class="eb">AI Creator Labs &middot; Direktori Belajar</div>
-<h1>Direktori Resource untuk <span class="sr">Belajar</span> AI</h1>
+<h1>Direktori Resource untuk <span class="sr">Belajar AI</span></h1>
 <p class="lead">Skill siap pakai, video, dan artikel pilihan tentang AI. Semuanya gratis dan mudah dicari.</p>
 <div class="hs"><button class="hsb" data-act="pal"><span>Mau belajar apa hari ini?</span><kbd>/</kbd></button><button class="btn o" data-act="basic">Mulai Dari Dasar</button></div>
 <div class="hm" id="hm"></div>
@@ -397,9 +399,10 @@ else if(t===2){const P=[[24,8],[8,38],[40,34]];o+=`<path d="M${P[0]}L${P[1]}L${P
 else{for(let r=0;r<5;r++)for(let q=0;q<5;q++){if(q+r<=5){const f=1-(q+r)/6;o+=`<rect x="${q*8+4}" y="${r*8+4}" width="${(4+4*f).toFixed(1)}" height="${(4+4*f).toFixed(1)}" rx="1.2" fill="url(#${id})" opacity="${(.3+.7*f).toFixed(2)}"/>`}}}
 return `<i class="abw" style="--a:${k.a}"><svg class="ab" viewBox="0 0 48 48" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${k.a}"/><stop offset="1" stop-color="${k.b}"/></linearGradient></defs>${o}</svg></i>`};
 const PLAY='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M8 4h2v16h-2zM10 6h2v12h-2zM12 8h2v8h-2zM14 10h2v4h-2z"/></svg>';
+const BOLT='<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12 2h4v2h-4zM10 4h4v2h-4zM8 6h4v2H8zM6 8h4v2H6zM6 10h12v2H6zM12 12h4v2h-4zM10 14h4v2h-4zM8 16h4v2H8zM6 18h4v2H6z"/></svg>';
 const ARR='<svg class="sar" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M3 11h16v2H3zM15 7h2v2h-2zM17 9h2v2h-2zM17 13h2v2h-2zM15 15h2v2h-2z"/></svg>';
 function skRow(x){return `<article class="sk fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}">${AB(+x.id.slice(1),x.c)}<code class="slug">${esc(x.cmd)}</code><h3>${esc(x.t)}</h3><p>${esc(x.d)}</p>${ARR}</article>`}
-function card(x){if(x.k==="s")return skRow(x);return `<article class="cd fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}">${media(x)}<div class="cb"><h3 class="ct">${esc(x.t)}</h3><p class="cdsc">${esc(x.d)}</p><div class="cf"><span class="tg">${ci(x.c)}${esc(x.c)}</span>${lvb(x.lv)}${x.k==="a"?`<span class="dt">${esc(x.date)}</span>`:""}<span class="go">${I.arr}</span></div></div></article>`}
+function card(x,row){if(x.k==="s"&&row===1)return skRow(x);return `<article class="cd fade" data-act="open" data-id="${x.id}" tabindex="0" role="button" aria-label="${esc(x.t)}">${media(x)}<div class="cb"><h3 class="ct">${esc(x.t)}</h3><p class="cdsc">${esc(x.d)}</p><div class="cf"><span class="tg">${ci(x.c)}${esc(x.c)}</span>${lvb(x.lv)}${x.k==="a"?`<span class="dt">${esc(x.date)}</span>`:""}<span class="go">${I.arr}</span></div></div></article>`}
 /* views */
 function sidebar(){
 const nav=(k,ic,lb)=>`<button class="nv${S.t===k?" on":""}" data-act="type" data-v="${k}" title="${lb}"><span class="ic">${ic}</span><span class="lb">${lb}</span></button>`;
@@ -408,7 +411,7 @@ h+=`<div class="sg">Topik</div>`+TOPICS.map(t=>`<button class="nv${S.c.has(t)?" 
 h+=`<div class="sg">Level</div>`+["Beginner","Intermediate","Advanced"].map(l=>`<button class="nv${S.l===l?" on":""}" data-act="level" data-v="${l}" title="${l}"><span class="lvm"><span class="lv lv-${LVK[l]}" style="padding:3px 6px">${l[0]}</span></span><span class="lb">${l}</span></button>`).join("");
 $("#sb").innerHTML=h}
 function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k];
-return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span><button class="more" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl":""}">${a.slice(0,k==="s"?6:8).map(card).join("")}</div></section>`}
+return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span><button class="more" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl":""}">${a.slice(0,k==="s"?6:8).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
 function view(){const w=$("#wrap"),filt=S.c.size||S.l||S.q||S.t!=="all",a=list();
 const tabs=[["all","Semua",ITEMS.length],["s","Skills",TYC.s],["v","Video",TYC.v],["a","Artikel",TYC.a]].map(([k,l,c])=>`<button class="tab${S.t===k?" on":""}" data-act="type" data-v="${k}">${l}<span class="n">${c}</span></button>`).join("");
 const sorts=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]].map(([v,l])=>`<option value="${v}"${S.s===v?" selected":""}>${l}</option>`).join("");
@@ -416,9 +419,9 @@ const lvs=`<option value="">Semua Level</option>`+["Beginner","Intermediate","Ad
 const chips=TOPICS.map(t=>{const on=S.c.has(t),c=ITEMS.filter(x=>(S.t==="all"||x.k===S.t)&&x.tg.includes(t)).length;if(!c&&!on)return"";return `<button class="chip${on?" on":""}" data-act="topic" data-v="${esc(t)}">${ci(t)}${esc(t)}${on?`<span class="x">${I.x}</span>`:`<span class="n">${c}</span>`}</button>`}).join("");
 let body="";
 if(!filt){const f=ITEMS.filter(x=>["s0","v0","a0","s4"].includes(x.id));
-body=`<section class="sec"><div class="sh2"><h2>${IC.home}Pilihan Editor</h2><span class="c">Mulai dari sini</span></div><div class="feat">${f.map(card).join("")}</div></section>`+secHtml("s")+secHtml("v")+secHtml("a")}
+body=`<section class="sec"><div class="sh2"><h2>${BOLT}Pilihan Editor</h2><span class="c">Mulai dari sini</span></div><div class="feat">${f.map(x=>card(x,0)).join("")}</div></section>`+secHtml("s")+secHtml("v")+secHtml("a")}
 else{const act=[...S.c].map(t=>`<button class="q" data-act="topic" data-v="${esc(t)}">${esc(t)}${I.x}</button>`).join("")+(S.l?`<button class="q" data-act="level" data-v="${S.l}">${S.l}${I.x}</button>`:"")+(S.q?`<button class="q" data-act="clearq">&ldquo;${esc(S.q)}&rdquo;${I.x}</button>`:"");
-body=`<div class="rs"><span><b>${a.length}</b> Resource${S.t!=="all"?" &middot; "+TY[S.t].n:""}</span>${act}${(S.c.size||S.l||S.q)?`<button class="rst" data-act="reset">${I.reset}Reset Filter</button>`:""}</div>`+(a.length?`<div class="grid${S.t==="s"?" skl":""}">${a.map(card).join("")}</div>`:`<div class="empty"><span class="sr">Belum ketemu</span><h3>Tidak Ada Hasil yang Cocok</h3><p>Coba kata kunci lain atau kurangi filter yang aktif.</p><button class="btn o" data-act="reset">Reset Filter</button></div>`)}
+body=`<div class="rs"><span><b>${a.length}</b> Resource${S.t!=="all"?" &middot; "+TY[S.t].n:""}</span>${act}${(S.c.size||S.l||S.q)?`<button class="rst" data-act="reset">${I.reset}Reset Filter</button>`:""}</div>`+(a.length?`<div class="grid${S.t==="s"?" skl":""}">${a.map(x=>card(x,S.t==="s"?1:0)).join("")}</div>`:`<div class="empty"><span class="sr">Belum ketemu</span><h3>Tidak Ada Hasil yang Cocok</h3><p>Coba kata kunci lain atau kurangi filter yang aktif.</p><button class="btn o" data-act="reset">Reset Filter</button></div>`)}
 w.innerHTML=`<div class="tb"><div class="tabs">${tabs}</div><div class="sp"><label class="sel"><select data-act="level-sel" aria-label="Level">${lvs}</select></label><label class="sel"><select data-act="sort" aria-label="Urutkan">${sorts}</select></label></div></div><div class="chips">${chips}</div>${body}<div class="foot"><span>Dibuat oleh <span class="sr">AI Creator Labs</span></span><span>Semua resource gratis. Konten masih contoh dan akan diganti data asli.</span></div>`}
 const BAN={s:{img:"images/menu-resources.webp",py:"28%",eb:"Resources",t:'Kumpulan <span class="sr">Skills</span>',d:"Skill siap pakai dari AI Creator Labs. Cari atau pilih topik, buka detailnya, lalu ambil dari GitHub."},v:{img:"images/menu-knowledges.webp",py:"52%",eb:"Knowledges",t:'Pustaka <span class="sr">Video</span>',d:"Rekaman workshop dan sesi live dari kanal YouTube AI Creator Labs."},a:{img:"images/menu-articles.webp",py:"30%",eb:"Articles",t:'Kumpulan <span class="sr">Artikel</span>',d:"Bacaan singkat tentang AI, dikelompokkan per topik."}};
 function banner(){const el=$("#ban"),b=BAN[S.t];if(!b){el.style.display="none";return}
@@ -517,6 +520,16 @@ if(still>32){run=false;return}
 requestAnimationFrame(loop)}})();
 
 
+
+/* particles */
+(()=>{const c=$("#fx");if(!c||matchMedia("(prefers-reduced-motion:reduce)").matches)return;const x=c.getContext("2d");
+const spr=document.createElement("canvas");spr.width=spr.height=32;{const g=spr.getContext("2d"),r=g.createRadialGradient(16,16,0,16,16,16);r.addColorStop(0,"rgba(235,228,255,1)");r.addColorStop(.18,"rgba(190,170,255,.9)");r.addColorStop(.45,"rgba(130,110,255,.28)");r.addColorStop(1,"rgba(110,90,255,0)");g.fillStyle=r;g.fillRect(0,0,32,32)}
+let W,H,P=[];function size(){const r=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*r;c.height=H*r;x.setTransform(r,0,0,r,0,0);
+const n=Math.round(Math.min(60,W*H/20000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*10+5,vx:(Math.random()-.5)*.18,vy:-Math.random()*.25-.05,a:Math.random()*.5+.35,p:Math.random()*6}))}
+size();addEventListener("resize",size);
+(function t(){x.clearRect(0,0,W,H);for(const p of P){p.x+=p.vx;p.y+=p.vy;p.p+=.014;if(p.y<-20){p.y=H+20;p.x=Math.random()*W}if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;
+x.globalAlpha=p.a*(.55+.45*Math.sin(p.p));x.drawImage(spr,p.x-p.s,p.y-p.s,p.s*2,p.s*2)}
+if(!document.hidden)requestAnimationFrame(t);else setTimeout(t,500)})()})();
 </script>
 </body>
 </html>
