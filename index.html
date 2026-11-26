@@ -65,6 +65,10 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 .grid.car .cd{flex:0 0 calc((100% - 42px)/4);min-width:0;scroll-snap-align:start}
 @media(max-width:1100px){.grid.car .cd{flex-basis:calc((100% - 28px)/3)}}
 @media(max-width:800px){.grid.car .cd{flex-basis:calc((100% - 14px)/2)}}
+.grid.skl.s3{grid-template-columns:repeat(3,minmax(0,1fr));gap:0 28px}
+.skl.s3 .sk{column-gap:16px;padding:22px 8px}.skl.s3 .sk h3{font-size:16.5px}
+@media(max-width:1100px){.grid.skl.s3{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:900px){.grid.skl.s3{grid-template-columns:1fr}}
 .grid.ga .ty,.grid.ga .dur{display:none}
 .grid.g3{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 @media(max-width:1100px){.grid.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -93,9 +97,9 @@ body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 .main>*{position:relative;z-index:1}
 .main>.glow{position:absolute;z-index:0;left:0;right:0;bottom:0;height:520px;pointer-events:none;overflow:hidden;-webkit-mask-image:linear-gradient(to top,#000 30%,transparent);mask-image:linear-gradient(to top,#000 30%,transparent)}
 .glow i{position:absolute;bottom:-45%;border-radius:50%;filter:blur(60px);will-change:transform,opacity}
-.glow i:nth-child(1){left:-5%;width:60%;height:100%;background:radial-gradient(closest-side,rgba(117,81,208,.55),transparent);animation:gl1 11s ease-in-out infinite alternate}
-.glow i:nth-child(2){right:-10%;width:65%;height:110%;background:radial-gradient(closest-side,rgba(90,100,255,.42),transparent);animation:gl2 14s ease-in-out infinite alternate}
-.glow i:nth-child(3){left:25%;width:50%;height:80%;background:radial-gradient(closest-side,rgba(180,150,255,.32),transparent);animation:gl3 9s ease-in-out infinite alternate}
+.glow i:nth-child(1){left:-5%;width:60%;height:100%;background:radial-gradient(closest-side,rgba(117,81,208,.77),transparent);animation:gl1 11s ease-in-out infinite alternate}
+.glow i:nth-child(2){right:-10%;width:65%;height:110%;background:radial-gradient(closest-side,rgba(90,100,255,.59),transparent);animation:gl2 14s ease-in-out infinite alternate}
+.glow i:nth-child(3){left:25%;width:50%;height:80%;background:radial-gradient(closest-side,rgba(180,150,255,.45),transparent);animation:gl3 9s ease-in-out infinite alternate}
 @keyframes gl1{from{transform:translate(0,0) scale(1);opacity:.75}to{transform:translate(12%,-6%) scale(1.12);opacity:1}}
 @keyframes gl2{from{transform:translate(0,0) scale(1.05);opacity:1}to{transform:translate(-14%,-4%) scale(.95);opacity:.7}}
 @keyframes gl3{from{transform:translate(-8%,0) scale(.95);opacity:.5}to{transform:translate(8%,-8%) scale(1.1);opacity:.9}}
@@ -134,7 +138,7 @@ h1 .sr{font:italic 500 1em/1 var(--serif);letter-spacing:-.01em;color:var(--v6)}
 .hm b{color:var(--ink);font-weight:600;margin-right:5px}
 /* sections */
 .wrap{padding:0 24px 60px}
-.sec{margin-top:26px}
+.sec{margin-top:36px}
 .sh2{display:flex;align-items:center;gap:10px;margin-bottom:12px}
 .sh2 h2{font:600 17px/1 var(--disp);letter-spacing:-.01em;display:flex;align-items:center;gap:9px}
 .sh2 h2 svg{width:18px;height:18px;color:var(--v5)}
@@ -438,7 +442,7 @@ h+=`<div class="sg">Level</div>`+["Beginner","Intermediate","Advanced"].map(l=>`
 $("#sb").innerHTML=h}
 function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k],car=k!=="s";
 const nb=car?`<span class="cn"><button class="cb2" data-act="car" data-v="-1" aria-label="Geser ke kiri"><span style="display:inline-grid;transform:scaleX(-1)">${I.arr}</span></button><button class="cb2" data-act="car" data-v="1" aria-label="Geser ke kanan">${I.arr}</button></span>`:"";
-return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl":" car"}${k==="a"?" ga":""}">${(k==="s"?a.slice(0,6):a).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
+return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl s3":" car"}${k==="a"?" ga":""}">${(k==="s"?a.slice(0,6):a).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
 function view(){const w=$("#wrap"),filt=S.c.size||S.l||S.q||S.t!=="all",a=list();
 const tabs=[["all","Semua",ITEMS.length],["s","Skills",TYC.s],["v","Video",TYC.v],["a","Artikel",TYC.a]].map(([k,l,c])=>`<button class="tab${S.t===k?" on":""}" data-act="type" data-v="${k}">${l}<span class="n">${c}</span></button>`).join("");
 const sorts=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]].map(([v,l])=>`<option value="${v}"${S.s===v?" selected":""}>${l}</option>`).join("");
