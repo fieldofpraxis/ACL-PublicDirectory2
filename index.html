@@ -59,6 +59,12 @@ body.sc .side:not(:hover) .sf{justify-content:center;padding:12px 0}body.sc .sid
 body.sc .side:not(:hover) .nv{padding:0;justify-content:center}
 body.sc .side:not(:hover) .nv .ic,body.sc .side:not(:hover) .nv .lvm{margin:0}
 }
+.sh2 .cn{margin-left:auto;display:inline-flex;gap:6px}.sh2 .cn+.more{margin-left:14px}
+.cb2{display:inline-grid;place-items:center;width:30px;height:30px;border-radius:50%;border:1px solid var(--line);color:var(--v6);transition:.2s}.cb2:hover{border-color:rgba(180,150,255,.6);color:#fff;background:rgba(146,108,238,.15)}.cb2 svg{width:15px;height:15px}
+.grid.car{display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:2px}.grid.car::-webkit-scrollbar{display:none}
+.grid.car .cd{flex:0 0 calc((100% - 42px)/4);min-width:0;scroll-snap-align:start}
+@media(max-width:1100px){.grid.car .cd{flex-basis:calc((100% - 28px)/3)}}
+@media(max-width:800px){.grid.car .cd{flex-basis:calc((100% - 14px)/2)}}
 .grid.ga .ty,.grid.ga .dur{display:none}
 .grid.g3{grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
 @media(max-width:1100px){.grid.g3{grid-template-columns:repeat(2,minmax(0,1fr))}}
@@ -246,7 +252,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 .top{gap:8px}.tlogo{display:none}
 .sp{margin-left:0;width:100%}.sp .sel{flex:1}.sp .sel select{width:100%}
 .tabs{width:100%;overflow-x:auto;scrollbar-width:none}.tabs::-webkit-scrollbar{display:none}.tab{flex:1;justify-content:center}.tb{padding-bottom:10px}.tb .sp{padding-top:0}.tab.on::after{bottom:-1px}
-.grid{grid-template-columns:1fr;gap:10px}.grid.skl{gap:0}.grid.g3{grid-template-columns:1fr;gap:10px}.feat{grid-template-columns:1fr;gap:10px}
+.grid{grid-template-columns:1fr;gap:10px}.grid.skl{gap:0}.grid.g3{grid-template-columns:1fr;gap:10px}.grid.car{display:flex;gap:10px}.grid.car .cd{flex:0 0 88%;display:grid}.feat{grid-template-columns:1fr;gap:10px}
 .cd{display:grid;grid-template-columns:116px 1fr}
 .cd .cm{aspect-ratio:auto;height:100%;min-height:104px;border-bottom:0;border-right:1px solid var(--line)}
 .cd .ty{left:6px;top:6px;height:19px;padding:0 6px 0 5px;font-size:9.5px}.cd .ty span{display:none}.cd .ty{padding:0 5px}
@@ -415,8 +421,9 @@ let h=`<div class="sg">Jelajahi</div>`+nav("all",I.all,"Semua Resource")+nav("s"
 h+=`<div class="sg">Topik</div>`+TOPICS.map(t=>`<button class="nv${S.c.has(t)?" on":""}" data-act="topic" data-v="${esc(t)}" title="${esc(t)}">${ci(t)}<span class="lb">${esc(t)}</span></button>`).join("");
 h+=`<div class="sg">Level</div>`+["Beginner","Intermediate","Advanced"].map(l=>`<button class="nv${S.l===l?" on":""}" data-act="level" data-v="${l}" title="${l}"><span class="lvm"><span class="lv lv-${LVK[l]}" style="padding:3px 6px">${l[0]}</span></span><span class="lb">${l}</span></button>`).join("");
 $("#sb").innerHTML=h}
-function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k];
-return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span><button class="more" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl":""}">${a.slice(0,k==="s"?6:8).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
+function secHtml(k){const a=list().filter(x=>x.k===k);if(!a.length)return"";const T=TY[k],car=k!=="s";
+const nb=car?`<span class="cn"><button class="cb2" data-act="car" data-v="-1" aria-label="Geser ke kiri"><span style="display:inline-grid;transform:scaleX(-1)">${I.arr}</span></button><button class="cb2" data-act="car" data-v="1" aria-label="Geser ke kanan">${I.arr}</button></span>`:"";
+return `<section class="sec"><div class="sh2"><h2>${T.ic}${k==="s"?"Skills":k==="v"?"Video":"Artikel"}</h2><span class="c">${a.length}</span>${nb}<button class="more${car?" m2":""}" data-act="type" data-v="${k}">Lihat Semua ${I.arr}</button></div><div class="grid${k==="s"?" skl":" car"}${k==="a"?" ga":""}">${(k==="s"?a.slice(0,6):a).map(x=>card(x,k==="s"?1:0)).join("")}</div></section>`}
 function view(){const w=$("#wrap"),filt=S.c.size||S.l||S.q||S.t!=="all",a=list();
 const tabs=[["all","Semua",ITEMS.length],["s","Skills",TYC.s],["v","Video",TYC.v],["a","Artikel",TYC.a]].map(([k,l,c])=>`<button class="tab${S.t===k?" on":""}" data-act="type" data-v="${k}">${l}<span class="n">${c}</span></button>`).join("");
 const sorts=[["new","Terbaru"],["pop","Terpopuler"],["az","A sampai Z"]].map(([v,l])=>`<option value="${v}"${S.s===v?" selected":""}>${l}</option>`).join("");
@@ -470,7 +477,7 @@ if(b.dataset.login!==undefined){e.preventDefault();return}
 if(b.dataset.start!==undefined){e.preventDefault();go({t:"s",c:new Set(),l:"",q:"",i:""});scrollTo({top:0});return}
 if(b.dataset.pi!==undefined){pPick(+b.dataset.pi);return}
 const a=b.dataset.act,v=b.dataset.v;
-if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");
+if(a==="pal")pOpen();else if(a==="collapse"){const c=document.body.classList.toggle("sc");try{localStorage.setItem("acl-sc",c?"1":"0")}catch(_){}}else if(a==="side")document.body.classList.toggle("so");else if(a==="car"){const c=b.closest(".sec").querySelector(".car");c.scrollBy({left:+b.dataset.v*c.clientWidth*.9,behavior:"smooth"})}
 else if(a==="type"){go({t:v==="all"?"all":v,i:""});document.body.classList.remove("so");if(v!=="all"||S.t!=="all")scrollTo({top:0})}
 else if(a==="topic"){const c=new Set(S.c);c.has(v)?c.delete(v):c.add(v);go({c,i:""})}
 else if(a==="level"){go({l:S.l===v?"":v,i:""})}
