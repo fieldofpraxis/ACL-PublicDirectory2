@@ -325,14 +325,16 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 @media(prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
 
 /* dither motion */
-.hero::before{animation:hbr 7s ease-in-out infinite alternate}
-.hero::after{animation:hsp 5s steps(10,end) infinite alternate}
 @keyframes hbr{from{opacity:.55}to{opacity:1.6}}
 @keyframes hsp{0%{background-position:0 0;opacity:.35}50%{opacity:.8}100%{background-position:22px 11px;opacity:.5}}
 .ban .bi{animation:bkb 14s ease-in-out infinite alternate}
 @keyframes bkb{from{transform:scale(var(--sc,1))}to{transform:scale(calc(var(--sc,1)*1.06))}}
 .ban:not(.full) .bi{transform-origin:right center}
 @media(prefers-reduced-motion:reduce){.hero::before,.hero::after,.ban .bi{animation:none}}
+.hgl,.hpt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;image-rendering:pixelated}
+.hgl{object-fit:cover;object-position:88% 40%;-webkit-mask-image:linear-gradient(90deg,transparent 38%,#000 66%);mask-image:linear-gradient(90deg,transparent 38%,#000 66%)}
+@media(max-width:700px){.hgl{object-position:80% 30%}}
+@media(min-width:701px){.wrap{padding-bottom:75px}}
 </style>
 </head>
 <body>
@@ -353,7 +355,7 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 <button class="stg" data-act="pal" aria-label="Cari"><span>Cari skill, video, atau artikel...</span><kbd>Ctrl K</kbd></button>
 <div class="tr"><a class="btn g" href="#/" data-login>Login</a><a class="btn p" href="#/skills" data-start>Mulai Belajar</a></div>
 </header>
-<section class="hero" id="hero">
+<section class="hero" id="hero"><canvas class="hgl" id="hgl"></canvas><canvas class="hpt" id="hpt"></canvas>
 <div class="eb">AI Creator Labs &middot; Direktori Belajar</div>
 <h1>Direktori Resource untuk <span class="sr">Belajar AI</span></h1>
 <p class="lead">Skill siap pakai, video, dan artikel pilihan tentang AI. Semuanya gratis dan mudah dicari.</p>
@@ -618,6 +620,24 @@ size();addEventListener("resize",size);
 (function t(){x.clearRect(0,0,W,H);for(const p of P){p.x+=p.vx;p.y+=p.vy;p.p+=.014;if(p.y<-20){p.y=H+20;p.x=Math.random()*W}if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;
 x.globalAlpha=p.a*(.55+.45*Math.sin(p.p));x.drawImage(spr,p.x-p.s,p.y-p.s,p.s*2,p.s*2)}
 if(!document.hidden)requestAnimationFrame(t);else setTimeout(t,500)})()})();
+
+(()=>{const h=$("#hero"),g=$("#hgl"),p=$("#hpt");if(!h||!g||!p||matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+const m=(getComputedStyle(h).backgroundImage.match(/url\("?([^")]+)"?\)/)||[])[1];if(!m)return;
+const PAL=[[6,4,22],[56,34,126],[146,108,238],[232,224,255]];
+const im=new Image();im.onload=()=>{const w=im.naturalWidth,hh=im.naturalHeight;g.width=w;g.height=hh;const o=document.createElement("canvas");o.width=w;o.height=hh;const oc=o.getContext("2d");oc.drawImage(im,0,0);const src=oc.getImageData(0,0,w,hh).data;
+const B=[];for(let y=0;y<hh;y+=2)for(let x=0;x<w;x+=2){const i=(y*w+x)*4;if(src[i]>100)B.push(i/4)}
+const gc=g.getContext("2d"),id=gc.createImageData(w,hh),d=id.data;let last=0;
+const pc=p.getContext("2d");let PW,PH,Q=[];const G=3;
+function sz(){PW=h.clientWidth;PH=h.clientHeight;p.width=PW;p.height=PH}
+function mk(init){return{x:PW*(.8+Math.random()*.15),y:PH*(.35+Math.random()*.25),vx:-(Math.random()*.5+.15),vy:(Math.random()-.55)*.5,l:init?Math.random():0,life:3+Math.random()*4,c:1+Math.floor(Math.random()*3)}}
+sz();addEventListener("resize",sz);for(let i=0;i<26;i++)Q.push(mk(1));
+function f(t){requestAnimationFrame(f);if(t-last<90||document.hidden||h.style.display==="none")return;const dt=(t-last)/1000;last=t;
+d.fill(0);const n=B.length*.07;for(let k=0;k<n;k++){const j=B[Math.random()*B.length|0],c=PAL[Math.random()<.5?3:1],base=(j)*4;
+for(const[dx,dy]of[[0,0],[1,0],[0,1],[1,1]]){const q=(base+(dy*w+dx)*4);d[q]=c[0];d[q+1]=c[1];d[q+2]=c[2];d[q+3]=255}}
+gc.putImageData(id,0,0);
+pc.clearRect(0,0,PW,PH);for(const a of Q){a.l+=dt/a.life;a.x+=a.vx*dt*30;a.y+=a.vy*dt*30;if(a.l>=1||a.x<0){Object.assign(a,mk(0))}
+const al=Math.sin(Math.PI*Math.min(a.l,1))*(Math.random()<.2?.4:1),c=PAL[a.c];pc.fillStyle=`rgba(${c[0]},${c[1]},${c[2]},${al})`;pc.fillRect(Math.round(a.x/G)*G,Math.round(a.y/G)*G,G,G)}}
+requestAnimationFrame(f)};im.src=m})();
 </script>
 </body>
 </html>
