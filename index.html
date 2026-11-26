@@ -334,7 +334,8 @@ body.so .side{transform:none}.sbk{display:block}body.so .sbk{opacity:1;visibilit
 .hgl,.hpt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;image-rendering:pixelated}
 .hgl{object-fit:cover;object-position:88% 40%;-webkit-mask-image:linear-gradient(90deg,transparent 38%,#000 66%);mask-image:linear-gradient(90deg,transparent 38%,#000 66%)}
 @media(max-width:700px){.hgl{object-position:80% 30%}}
-@media(min-width:701px){.wrap{padding-bottom:75px}}
+@media(min-width:701px){.wrap{padding-bottom:var(--fp,12px)}}
+.bpt{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;image-rendering:pixelated}
 </style>
 </head>
 <body>
@@ -638,6 +639,14 @@ gc.putImageData(id,0,0);
 pc.clearRect(0,0,PW,PH);for(const a of Q){a.l+=dt/a.life;a.x+=a.vx*dt*30;a.y+=a.vy*dt*30;if(a.l>=1||a.x<0){Object.assign(a,mk(0))}
 const al=Math.sin(Math.PI*Math.min(a.l,1))*(Math.random()<.2?.4:1),c=PAL[a.c];pc.fillStyle=`rgba(${c[0]},${c[1]},${c[2]},${al})`;pc.fillRect(Math.round(a.x/G)*G,Math.round(a.y/G)*G,G,G)}}
 requestAnimationFrame(f)};im.src=m})();
+
+(()=>{if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;const PAL=[[56,34,126],[146,108,238],[232,224,255]],G=3;let last=0,Q=[],cv=null,cx,W=0,H=0;
+function mk(init){return{x:W*(.45+Math.random()*.5),y:H*(.15+Math.random()*.7),vx:-(Math.random()*.35+.08),vy:(Math.random()-.6)*.35,l:init?Math.random():0,life:3+Math.random()*4,c:Math.floor(Math.random()*3)}}
+function f(t){requestAnimationFrame(f);if(t-last<90||document.hidden)return;const dt=(t-last)/1000;last=t;const b=document.querySelector(".ban");if(!b){cv=null;return}
+if(!cv||cv.parentNode!==b){cv=b.querySelector(".bpt");if(!cv){cv=document.createElement("canvas");cv.className="bpt";b.appendChild(cv)}cx=cv.getContext("2d")}
+if(cv.width!==b.clientWidth||cv.height!==b.clientHeight){W=cv.width=b.clientWidth;H=cv.height=b.clientHeight;Q=Array.from({length:Math.round(W/90)+6},()=>mk(1))}
+cx.clearRect(0,0,W,H);for(const a of Q){a.l+=dt/a.life;a.x+=a.vx*dt*30;a.y+=a.vy*dt*30;if(a.l>=1||a.x<0)Object.assign(a,mk(0));const al=Math.sin(Math.PI*Math.min(a.l,1))*(Math.random()<.2?.4:1),c=PAL[a.c];cx.fillStyle=`rgba(${c[0]},${c[1]},${c[2]},${al})`;cx.fillRect(Math.round(a.x/G)*G,Math.round(a.y/G)*G,G,G)}}
+requestAnimationFrame(f)})();
 </script>
 </body>
 </html>
