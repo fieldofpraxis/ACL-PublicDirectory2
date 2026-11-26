@@ -525,7 +525,7 @@ requestAnimationFrame(loop)}})();
 (()=>{const c=$("#fx");if(!c||matchMedia("(prefers-reduced-motion:reduce)").matches)return;const x=c.getContext("2d");
 const spr=document.createElement("canvas");spr.width=spr.height=32;{const g=spr.getContext("2d"),r=g.createRadialGradient(16,16,0,16,16,16);r.addColorStop(0,"rgba(235,228,255,1)");r.addColorStop(.18,"rgba(190,170,255,.9)");r.addColorStop(.45,"rgba(130,110,255,.28)");r.addColorStop(1,"rgba(110,90,255,0)");g.fillStyle=r;g.fillRect(0,0,32,32)}
 let W,H,P=[];function size(){const r=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;c.width=W*r;c.height=H*r;x.setTransform(r,0,0,r,0,0);
-const n=Math.round(Math.min(60,W*H/20000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*10+5,vx:(Math.random()-.5)*.18,vy:-Math.random()*.25-.05,a:Math.random()*.5+.35,p:Math.random()*6}))}
+const n=Math.round(Math.min(90,W*H/14000));P=Array.from({length:n},()=>({x:Math.random()*W,y:Math.random()*H,s:Math.random()*3.5+2,vx:(Math.random()-.5)*.18,vy:-Math.random()*.25-.05,a:Math.random()*.4+.5,p:Math.random()*6}))}
 size();addEventListener("resize",size);
 (function t(){x.clearRect(0,0,W,H);for(const p of P){p.x+=p.vx;p.y+=p.vy;p.p+=.014;if(p.y<-20){p.y=H+20;p.x=Math.random()*W}if(p.x<-20)p.x=W+20;if(p.x>W+20)p.x=-20;
 x.globalAlpha=p.a*(.55+.45*Math.sin(p.p));x.drawImage(spr,p.x-p.s,p.y-p.s,p.s*2,p.s*2)}
